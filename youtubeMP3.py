@@ -1,14 +1,16 @@
 from tkinter import *
 from pytube import YouTube
 from moviepy.editor import *
+import os
 
 def download_mp3():
     url = url_entry.get()
     video = YouTube(url)
     audio_stream = video.streams.filter(only_audio=True).first()
     audio_file = audio_stream.download()
-    mp3_file = audio_file.split(".")[0] + ".mp3"
+    mp3_file = os.path.splitext(audio_file)[0] + ".mp3"
     AudioFileClip(audio_file).write_audiofile(mp3_file)
+    os.remove(audio_file)
     info_label.config(text="Download complete!")
 
 root = Tk()
