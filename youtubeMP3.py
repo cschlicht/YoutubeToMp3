@@ -24,25 +24,32 @@ def download_mp3():
 root = Tk()
 root.title("YouTube MP3 Downloader")
 
-directory_label = Label(root, text="Choose download directory:")
-directory_label.pack()
+# set padding for all widgets
+padx = 10
+pady = 10
 
-path_entry = Entry(root, width=50)
-path_entry.pack()
+directory_frame = Frame(root, padx=padx, pady=pady, bd=1, relief="solid")
+directory_frame.pack(fill=X)
 
-directory_button = Button(root, text="Choose", command=choose_directory)
-directory_button.pack()
+directory_label = Label(directory_frame, text="Choose download directory:", padx=padx, pady=pady)
+directory_label.pack(side=LEFT)
 
-url_label = Label(root, text="Paste YouTube URL below:")
+path_entry = Entry(directory_frame, width=50)
+path_entry.pack(side=LEFT, padx=padx, pady=pady)
+
+directory_button = Button(directory_frame, text="Choose", command=choose_directory, padx=padx, pady=pady)
+directory_button.pack(side=LEFT)
+
+url_label = Label(root, text="Paste YouTube URL below:", padx=padx, pady=pady)
 url_label.pack()
 
 url_entry = Entry(root, width=50)
-url_entry.pack()
+url_entry.pack(padx=padx, pady=pady)
 
-download_button = Button(root, text="Download MP3", command=download_mp3)
-download_button.pack()
+download_button = Button(root, text="Download MP3", command=download_mp3, padx=padx, pady=pady)
+download_button.pack(padx=padx, pady=pady)
 
-info_label = Label(root, text="")
+info_label = Label(root, text="", padx=padx, pady=pady)
 info_label.pack()
 
 root.mainloop()
