@@ -6,15 +6,18 @@ from moviepy.editor import *
 def choose_directory():
     path = filedialog.askdirectory()
     directory_label.config(text=path)
+    path_entry.delete(0, END)
+    path_entry.insert(0, path)
 
 def download_mp3():
     url = url_entry.get()
+    url = url.split("&")[0]
     video = YouTube(url)
     audio_stream = video.streams.filter(only_audio=True).first()
-    title = video.title
-    mp4_file = audio_stream.download(output_path=directory_label.cget("text"), filename="audio")
-    mp3_file = directory_label.cget("text") + "/" + title + ".mp3"
-    AudioFileClip(mp4_file).write_audiofile(mp3_file)
+    audio_file = audio_stream.download()
+    video_title = video.title.replace("|","-").replace(":","-").replace("\"","'")
+    mp3_file = f"{path_entry.get()}/{video_title}.mp3"
+    AudioFileClip(audio_file).write_audiofile(mp3_file)
     info_label.config(text="Download complete!")
 
 root = Tk()
@@ -34,6 +37,9 @@ directory_label.pack(side=LEFT)
 
 directory_button = Button(directory_frame, text="Choose", command=choose_directory)
 directory_button.pack(side=LEFT)
+
+path_entry = Entry(root, width=50)
+path_entry.pack()
 
 download_button = Button(root, text="Download MP3", command=download_mp3)
 download_button.pack()
