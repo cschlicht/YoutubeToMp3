@@ -21,7 +21,7 @@ else:
 def choose_directory():
     global path
     path = filedialog.askdirectory()
-    directory_label.config(text=path)
+    directory_label.config(text="Download Directory: ")
     path_entry.delete(0, END)
     path_entry.insert(0, path)
     # Save the path to the configuration file
