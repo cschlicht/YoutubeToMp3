@@ -1,9 +1,8 @@
 from tkinter import *
 from tkinter import filedialog
-import pyperclip
 from pytube import YouTube
 from moviepy.editor import *
-import os
+import pyperclip
 
 def choose_directory():
     path = filedialog.askdirectory()
@@ -11,10 +10,10 @@ def choose_directory():
     path_entry.delete(0, END)
     path_entry.insert(0, path)
 
-def paste_link():
-    link = pyperclip.paste()
+def paste_clipboard():
+    clipboard_data = pyperclip.paste()
     url_entry.delete(0, END)
-    url_entry.insert(0, link)
+    url_entry.insert(0, clipboard_data)
 
 def download_mp3():
     url = url_entry.get()
@@ -50,14 +49,11 @@ directory_button.pack(side=LEFT)
 url_label = Label(root, text="Paste YouTube URL below:", padx=padx, pady=pady)
 url_label.pack()
 
-url_frame = Frame(root, padx=padx, pady=pady, bd=1, relief="solid")
-url_frame.pack(fill=X)
+url_entry = Entry(root, width=50)
+url_entry.pack(padx=padx, pady=pady, anchor='center')
 
-url_entry = Entry(url_frame, width=50)
-url_entry.pack(side=LEFT, padx=padx, pady=pady)
-
-paste_button = Button(url_frame, text="Paste", command=paste_link, padx=padx, pady=pady)
-paste_button.pack(side=LEFT)
+paste_button = Button(root, text="Paste", command=paste_clipboard, padx=padx, pady=pady)
+paste_button.pack(padx=padx, pady=pady)
 
 download_button = Button(root, text="Download MP3", command=download_mp3, padx=padx, pady=pady)
 download_button.pack(padx=padx, pady=pady)
