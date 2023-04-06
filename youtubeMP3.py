@@ -23,12 +23,6 @@ def download_mp3():
 root = Tk()
 root.title("YouTube MP3 Downloader")
 
-url_label = Label(root, text="Paste YouTube URL below:")
-url_label.pack()
-
-url_entry = Entry(root, width=50)
-url_entry.pack()
-
 directory_frame = Frame(root)
 directory_frame.pack()
 
@@ -40,6 +34,12 @@ directory_button.pack(side=LEFT)
 
 path_entry = Entry(root, width=50)
 path_entry.pack()
+
+url_label = Label(root, text="Paste YouTube URL below:")
+url_label.pack()
+
+url_entry = Entry(root, width=50)
+url_entry.pack()
 
 download_button = Button(root, text="Download MP3", command=download_mp3)
 download_button.pack()
