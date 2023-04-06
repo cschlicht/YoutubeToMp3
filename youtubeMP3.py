@@ -3,12 +3,31 @@ from tkinter import filedialog
 from pytube import YouTube
 from moviepy.editor import *
 import pyperclip
+import os
+import configparser
+
+# Create a config parser object
+config = configparser.ConfigParser()
+
+# Check if configuration file exists
+if os.path.exists('config.ini'):
+    # If it exists, read the path from the config file
+    config.read('config.ini')
+    path = config.get('Settings', 'path')
+else:
+    # If it doesn't exist, set path to an empty string
+    path = ''
 
 def choose_directory():
+    global path
     path = filedialog.askdirectory()
     directory_label.config(text=path)
     path_entry.delete(0, END)
     path_entry.insert(0, path)
+    # Save the path to the configuration file
+    config['Settings'] = {'path': path}
+    with open('config.ini', 'w') as configfile:
+        config.write(configfile)
 
 def paste_clipboard():
     clipboard_data = pyperclip.paste()
@@ -22,7 +41,7 @@ def download_mp3():
     audio_stream = video.streams.filter(mime_type="audio/mp4").first()
     audio_file = audio_stream.download()
     video_title = video.title.replace("|","-").replace(":","-").replace("\"","'")
-    mp3_file = f"{path_entry.get()}/{video_title}.mp3"
+    mp3_file = f"{path}/{video_title}.mp3"
     AudioFileClip(audio_file).write_audiofile(mp3_file)
     os.remove(audio_file)  # remove the downloaded .mp4 file
     info_label.config(text="Download complete!")
@@ -42,6 +61,7 @@ directory_label.pack(side=LEFT)
 
 path_entry = Entry(directory_frame, width=50)
 path_entry.pack(side=LEFT, padx=padx, pady=pady)
+path_entry.insert(0, path)
 
 directory_button = Button(directory_frame, text="Choose", command=choose_directory, padx=padx, pady=pady)
 directory_button.pack(side=LEFT)
