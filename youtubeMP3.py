@@ -46,39 +46,44 @@ def download_mp3():
     os.remove(audio_file)  # remove the downloaded .mp4 file
     info_label.config(text="Download complete!")
 
+# create main window
 root = Tk()
 root.title("YouTube MP3 Downloader")
+root.geometry('575x300')
 
-# set padding for all widgets
-padx = 10
-pady = 10
+# create download directory frame
+directory_frame = Frame(root, bd=2, relief="groove")
+directory_frame.pack(side=TOP, fill=X, padx=10, pady=10)
 
-directory_frame = Frame(root, padx=padx, pady=pady, bd=1, relief="solid")
-directory_frame.pack(fill=X)
-
-directory_label = Label(directory_frame, text="Choose download directory:", padx=padx, pady=pady)
-directory_label.pack(side=LEFT)
+directory_label = Label(directory_frame, text="Download Directory: ")
+directory_label.pack(side=LEFT, padx=10, pady=10)
 
 path_entry = Entry(directory_frame, width=50)
-path_entry.pack(side=LEFT, padx=padx, pady=pady)
+path_entry.pack(side=LEFT, padx=10, pady=10)
 path_entry.insert(0, path)
 
-directory_button = Button(directory_frame, text="Choose", command=choose_directory, padx=padx, pady=pady)
-directory_button.pack(side=LEFT)
+directory_button = Button(directory_frame, text="Choose", command=choose_directory, padx=10, pady=10)
+directory_button.pack(side=LEFT, padx=10, pady=10)
 
-url_label = Label(root, text="Paste YouTube URL below:", padx=padx, pady=pady)
-url_label.pack()
+# create URL frame
+url_frame = Frame(root, bd=2, relief="groove")
+url_frame.pack(side=TOP, fill=X, padx=10, pady=10)
 
-url_entry = Entry(root, width=50)
-url_entry.pack(padx=padx, pady=pady, anchor='center')
+url_label = Label(url_frame, text="YouTube URL: ")
+url_label.pack(side=LEFT, padx=10, pady=10)
 
-paste_button = Button(root, text="Paste", command=paste_clipboard, padx=padx, pady=pady)
-paste_button.pack(padx=padx, pady=pady)
+url_entry = Entry(url_frame, width=50)
+url_entry.pack(side=LEFT, padx=10, pady=10, anchor='center')
 
-download_button = Button(root, text="Download MP3", command=download_mp3, padx=padx, pady=pady)
-download_button.pack(padx=padx, pady=pady)
+paste_button = Button(url_frame, text="Paste", command=paste_clipboard, padx=10, pady=10)
+paste_button.pack(side=LEFT, padx=10, pady=10)
 
-info_label = Label(root, text="", padx=padx, pady=pady)
-info_label.pack()
+# create download button
+download_button = Button(root, text="Download MP3", command=download_mp3, padx=10, pady=10)
+download_button.pack(side=TOP, padx=10, pady=10)
+
+# create info label
+info_label = Label(root, text="", padx=10, pady=10)
+info_label.pack(side=BOTTOM)
 
 root.mainloop()
