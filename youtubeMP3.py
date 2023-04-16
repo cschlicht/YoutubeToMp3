@@ -102,18 +102,19 @@ class YouTubeDownloader(QMainWindow):
 
     def download_mp3(self):
         url = self.url_entry.text()
-        url = url.split("&")[0]
-        video = YouTube(url)
-        audio_stream = video.streams.filter(mime_type="audio/mp4").first()
-        audio_file = audio_stream.download()
-        audio_file_name = audio_file.split("\\")[-1]
-        audio_file_name = audio_file_name.replace(".mp4", ".mp3")
-        audio_file_path = os.path.join(self.path, audio_file_name)
-        video_clip = AudioFileClip(audio_file)
-        video_clip.write_audiofile(audio_file_path)
-        video_clip.close()
-        os.remove(audio_file)
-        self.info_label.setText("MP3 Downloaded Successfully")
+        if len(url) > 0: 
+            url = url.split("&")[0]
+            video = YouTube(url)
+            audio_stream = video.streams.filter(mime_type="audio/mp4").first()
+            audio_file = audio_stream.download()
+            audio_file_name = audio_file.split("\\")[-1]
+            audio_file_name = audio_file_name.replace(".mp4", ".mp3")
+            audio_file_path = os.path.join(self.path, audio_file_name)
+            video_clip = AudioFileClip(audio_file)
+            video_clip.write_audiofile(audio_file_path)
+            video_clip.close()
+            os.remove(audio_file)
+            self.info_label.setText("MP3 Downloaded Successfully")
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
